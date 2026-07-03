@@ -85,6 +85,125 @@
         .myth-token { box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08); }
         .myth-token.correct { background: linear-gradient(135deg, #047857, #10b981); color: #ecfdf5; border-color: #10b981; }
         .myth-token.error { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+        .hotspot {
+            position: absolute;
+            width: 54px;
+            height: 54px;
+            border-radius: 9999px;
+            border: 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: #0f766e;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hotspot:hover {
+            transform: scale(1.08);
+            box-shadow: 0 16px 34px rgba(15, 23, 42, 0.22);
+        }
+        .hotspot::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 9999px;
+            border: 2px solid rgba(20, 184, 166, 0.35);
+            animation: pulse-ring 2.2s ease-out infinite;
+        }
+        .hotspot-label {
+            position: absolute;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); opacity: 0.85; }
+            70% { transform: scale(1.25); opacity: 0; }
+            100% { transform: scale(1.25); opacity: 0; }
+        }
+        .hotspot--amber { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #ffffff; }
+        .hotspot--amber::after { border-color: rgba(245, 158, 11, 0.45); }
+        .scene3-cta {
+            animation: scene3-cta-bounce 2.4s ease-in-out infinite;
+            position: relative;
+        }
+        .scene3-cta::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 9999px;
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            opacity: 0;
+            animation: scene3-cta-halo 2.4s ease-out infinite;
+            pointer-events: none;
+        }
+        .scene3-cta:hover { animation: none; transform: scale(1.06); }
+        .scene3-cta:hover::after { opacity: 0; animation: none; }
+        .scene3-cta:nth-child(2) { animation-delay: 0.3s; }
+        .scene3-cta:nth-child(2)::after { animation-delay: 0.3s; }
+        .scene3-cta:nth-child(3) { animation-delay: 0.6s; }
+        .scene3-cta:nth-child(3)::after { animation-delay: 0.6s; }
+        @keyframes scene3-cta-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        @keyframes scene3-cta-halo {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.2); opacity: 0; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        .sim-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            line-height: 1.2;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+        }
+        .sim-chip:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08); }
+        .sim-chip--bad { border-color: #fecdd3; color: #9f1239; }
+        .sim-chip--good { border-color: #a7f3d0; color: #047857; }
+        .sim-chip--custom { border-color: #fde68a; color: #b45309; }
+        .sim-chip__tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.4rem;
+            height: 1.4rem;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.08);
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+            background: #6366f1;
+            opacity: 0.4;
+            animation: typing-bounce 1s ease-in-out infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typing-bounce {
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+            40% { transform: translateY(-4px); opacity: 1; }
+        }
     </style>
 </head>
 <body class="h-screen w-screen flex items-center justify-center p-2 sm:p-4">
@@ -117,41 +236,7 @@
             </button>
         </footer>
 
-        <!-- OSO Character SVG Definition (Hidden, used as template) -->
-        <svg style="display:none;">
-            <symbol id="oso-bear" viewBox="0 0 200 200">
-                <!-- Body -->
-                <path d="M50 200 C50 120, 150 120, 150 200" fill="#1e293b" />
-                <!-- Vest -->
-                <path d="M60 200 C60 140, 90 140, 90 200" fill="#b45309" />
-                <path d="M140 200 C140 140, 110 140, 110 200" fill="#b45309" />
-                <!-- Ears -->
-                <circle cx="55" cy="65" r="15" fill="#1e293b" />
-                <circle cx="55" cy="65" r="8" fill="#cbd5e1" />
-                <circle cx="145" cy="65" r="15" fill="#1e293b" />
-                <circle cx="145" cy="65" r="8" fill="#cbd5e1" />
-                <!-- Head -->
-                <path d="M60 130 C40 80, 70 50, 100 50 C130 50, 160 80, 140 130 C130 160, 70 160, 60 130 Z" fill="#1e293b" />
-                <!-- Snout/Muzzle -->
-                <ellipse cx="100" cy="115" rx="25" ry="20" fill="#f8fafc" />
-                <path d="M100 130 C90 130, 90 140, 100 140 C110 140, 110 130, 100 130 Z" fill="#0f172a" />
-                <path d="M100 140 L100 145 M90 148 C95 152, 105 152, 110 148" stroke="#0f172a" stroke-width="2" fill="none"/>
-                <!-- Nose -->
-                <path d="M90 105 Q100 100 110 105 L100 115 Z" fill="#0f172a"/>
-                <!-- Eyes -->
-                <circle cx="80" cy="90" r="12" fill="#f8fafc" />
-                <circle cx="80" cy="90" r="5" fill="#0f172a" />
-                <circle cx="120" cy="90" r="12" fill="#f8fafc" />
-                <circle cx="120" cy="90" r="5" fill="#0f172a" />
-                <!-- Glasses -->
-                <circle cx="80" cy="90" r="14" fill="none" stroke="#eab308" stroke-width="3" />
-                <circle cx="120" cy="90" r="14" fill="none" stroke="#eab308" stroke-width="3" />
-                <line x1="94" y1="90" x2="106" y2="90" stroke="#eab308" stroke-width="3" />
-                <!-- Hat -->
-                <path d="M50 60 Q100 30 150 60" fill="none" stroke="#854d0e" stroke-width="8" stroke-linecap="round"/>
-                <path d="M65 55 C65 20, 135 20, 135 55 Z" fill="#a16207" />
-            </symbol>
-        </svg>
+        <!-- Oso orientador: imagen SVG externa (imgs/oso.svg) -->
 
         <!-- Modals Container -->
         <div id="modal-overlay" class="absolute inset-0 bg-black/40 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
@@ -202,206 +287,265 @@
 
         const scenes = {
             1: () => `
-                <div class="w-full h-full flex flex-col gap-6 animate-slide-up">
-                    <div class="hero-card rounded-[28px] p-5 md:p-7 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.14),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(59,130,246,0.12),_transparent_30%)]"></div>
-                        <div class="relative scene-grid items-center">
-                            <div class="col-span-12 md:col-span-4 flex flex-col items-center md:items-start gap-4">
-                                <span class="gradient-chip text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.2em]">Experiencia guiada</span>
-                                <svg class="w-44 h-44 md:w-56 md:h-56 animate-float drop-shadow-xl"><use href="#oso-bear"></use></svg>
-                                <div class="soft-card rounded-2xl p-4 text-sm md:text-base text-slate-700 leading-relaxed">
-                                    <span class="text-amber-600 font-bold">¡Hola Guía!</span> Tus estudiantes no siempre ven todas las opciones. Tu rol es abrir posibilidades y convertir la información en orientación útil.
-                                </div>
-                            </div>
-                            <div class="col-span-12 md:col-span-8 grid md:grid-cols-[1.2fr_0.8fr] gap-4 items-stretch">
-                                <div class="soft-card rounded-[24px] p-5 border border-teal-100">
-                                    <h2 class="text-2xl md:text-4xl font-extrabold text-slate-800 leading-tight mb-3">Guiar no es empujar a un solo camino.</h2>
-                                    <p class="text-slate-600 text-sm md:text-base mb-4">Muestra el bosque completo: rutas universitarias, tecnológicas y técnicas con datos reales, tiempos, costos y oportunidades.</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-teal-50 text-teal-700 px-3 py-2 rounded-full text-xs font-semibold">Decisión informada</span>
-                                        <span class="bg-sky-50 text-sky-700 px-3 py-2 rounded-full text-xs font-semibold">Comparación de rutas</span>
-                                        <span class="bg-amber-50 text-amber-700 px-3 py-2 rounded-full text-xs font-semibold">Justicia social</span>
-                                    </div>
-                                    <button onclick="openModal('realidad')" class="bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-6 rounded-full shadow-[0_10px_30px_rgba(234,179,8,0.28)] transition-transform hover:scale-105 flex items-center gap-2">
-                                        <i class="fas fa-chart-pie"></i> Ver Realidad vs. Mito
-                                    </button>
-                                </div>
-                                <div class="soft-card rounded-[24px] p-4">
-                                    <div class="image-placeholder rounded-2xl h-40 md:h-52 flex flex-col items-center justify-center text-center p-4">
-                                        <i class="fas fa-image text-3xl text-teal-600 mb-2"></i>
-                                        <p class="font-bold text-slate-700">Espacio sugerido para ilustración principal</p>
-                                        <p class="text-xs text-slate-500 mt-1">Medida recomendada: 1200 x 900 px</p>
-                                        <p class="text-xs text-slate-500">Tema: bosque educativo con varios senderos</p>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="w-full h-full flex flex-col animate-slide-up">
+                    <div class="relative flex-1 overflow-hidden">
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('imgs/bosque.svg');"></div>
+                        <div class="absolute top-5 right-5 z-10 text-amber-400/80 text-5xl animate-pulse pointer-events-none"><i class="far fa-compass"></i></div>
+                        <div class="absolute top-5 left-5 z-10 bg-white/85 text-slate-700 text-xs md:text-sm font-semibold px-4 py-2 rounded-full shadow-sm border border-white/60">
+                            Explora los puntos interactivos del bosque
                         </div>
-                    </div>
-                    <div class="soft-card rounded-[28px] p-4 md:p-6 relative overflow-hidden path-container min-h-[260px] md:min-h-[320px]">
-                        <div class="absolute top-5 right-5 text-amber-400/60 text-5xl animate-pulse"><i class="far fa-compass"></i></div>
-                        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-emerald-100 to-transparent"></div>
-                        <div class="absolute bottom-0 w-full h-full flex justify-center gap-4 px-4 path">
-                            <div class="w-1/4 h-full bg-gradient-to-t from-teal-400/65 to-transparent clip-path-trail flex items-end justify-center pb-8 hover:brightness-110 transition-all">
-                                <span class="bg-teal-600/90 text-white text-xs px-2 py-1 rounded font-bold backdrop-blur-sm -rotate-90 origin-left translate-x-4">Técnica</span>
-                            </div>
-                            <div class="w-2/4 h-full bg-gradient-to-t from-slate-300/70 to-transparent clip-path-trail flex items-end justify-center pb-8 opacity-60">
-                                <span class="bg-slate-600/90 text-white text-sm px-4 py-1 rounded font-bold backdrop-blur-sm mb-4">Universidad</span>
-                            </div>
-                            <div class="w-1/4 h-full bg-gradient-to-t from-yellow-400/65 to-transparent clip-path-trail flex items-end justify-center pb-8 hover:brightness-110 transition-all">
-                                <span class="bg-amber-600/90 text-white text-xs px-2 py-1 rounded font-bold backdrop-blur-sm rotate-90 origin-right -translate-x-4">Tecnológica</span>
-                            </div>
+                        <div class="absolute inset-0">
+                            <button class="hotspot" style="left: 22%; top: 64%;" onclick="openModal('rutaTecnica')" aria-label="Ver información sobre ruta técnica y tecnológica">
+                                <i class="fas fa-tools text-lg"></i>
+                            </button>
+                            <span class="hotspot-label" style="left: 24%; top: 56%;">Ruta técnica</span>
+
+                            <button class="hotspot" style="left: 50%; top: 60%;" onclick="openModal('rutaUniversitaria')" aria-label="Ver información sobre ruta universitaria">
+                                <i class="fas fa-university text-lg"></i>
+                            </button>
+                            <span class="hotspot-label" style="left: 52%; top: 52%;">Ruta universitaria</span>
+
+                            <button class="hotspot" style="left: 78%; top: 62%;" onclick="openModal('decisionInformada')" aria-label="Ver información sobre decisión informada">
+                                <i class="fas fa-lightbulb text-lg"></i>
+                            </button>
+                            <span class="hotspot-label" style="left: 80%; top: 54%;">Decisión informada</span>
+
+                            <button class="hotspot hotspot--amber" style="left: 50%; top: 18%;" onclick="openModal('realidad')" aria-label="Ver Realidad vs. Mito">
+                                <i class="fas fa-chart-pie text-lg"></i>
+                            </button>
+                            <span class="hotspot-label" style="left: 52%; top: 10%;">Mito vs. Realidad</span>
                         </div>
                     </div>
                 </div>
-                <style>
-                    .clip-path-trail { clip-path: polygon(40% 0, 60% 0, 100% 100%, 0% 100%); }
-                </style>
             `,
             2: () => `
                 <div class="w-full h-full flex flex-col gap-4 animate-slide-up">
-                    <div class="hero-card rounded-[28px] p-5 md:p-6">
-                        <div class="flex flex-col lg:flex-row gap-5 lg:items-start lg:justify-between">
-                            <div class="max-w-3xl">
-                                <span class="gradient-chip text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.18em]">Actividad interactiva</span>
-                                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mt-4">Derribando Mitos en el Sendero</h2>
-                                <p class="text-slate-600 text-sm md:text-base mt-2">Clasifica cada afirmación según la ruta formativa a la que corresponde. La idea es que el docente visualice, compare y explique por qué no todos los caminos responden a las mismas realidades.</p>
+                    <div class="hero-card rounded-[28px] p-5 md:p-6 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.14),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(99,102,241,0.12),_transparent_30%)]"></div>
+                        <div class="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <span class="gradient-chip text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.18em]">Mini juego</span>
+                                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mt-3">Derribando Mitos en el Sendero</h2>
+                                <p class="text-slate-600 text-sm md:text-base mt-2 max-w-2xl">Lanza cada afirmación al camino correcto. Gana puntos cuando aciertes y descubre qué ruta se ajusta mejor a la realidad.</p>
                             </div>
-                            <div class="soft-card rounded-2xl p-4 min-w-[260px] max-w-sm">
-                                <h3 class="text-sm font-bold text-slate-800 mb-2">Cómo facilitar la actividad</h3>
-                                <ol class="text-sm text-slate-600 space-y-2 list-decimal list-inside">
-                                    <li>Lee en voz alta cada tarjeta.</li>
-                                    <li>Pide al grupo justificar su elección.</li>
-                                    <li>Cierra con una reflexión sobre rutas diversas.</li>
-                                </ol>
+                            <div class="flex items-center gap-3 bg-white/80 border border-white/70 rounded-2xl px-4 py-3 shadow-sm">
+                                <div class="text-center">
+                                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Puntaje</p>
+                                    <p class="text-2xl font-extrabold text-teal-700"><span id="s2-score">0</span><span class="text-slate-400 text-base">/${mitosData.length}</span></p>
+                                </div>
+                                <div class="w-px h-10 bg-slate-200"></div>
+                                <div class="text-center">
+                                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Restantes</p>
+                                    <p class="text-2xl font-extrabold text-slate-700" id="s2-remaining">${mitosData.length}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="scene-grid items-start">
-                        <div class="col-span-12 lg:col-span-8 soft-card rounded-[28px] p-4 md:p-5">
-                            <div class="grid md:grid-cols-2 gap-4 min-h-[320px]">
-                                <div id="tree-tecnica" class="drop-zone rounded-[24px] border-2 border-teal-200 bg-gradient-to-b from-teal-50 to-emerald-50 p-4 md:p-5 relative" data-target="tecnica" onclick="handleZoneClick('tecnica')">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-tools"></i></div>
-                                        <div>
-                                            <h3 class="font-bold text-teal-800 text-base">Ruta Técnica / Tecnológica</h3>
-                                            <p class="text-xs text-teal-700">Inserción laboral y aplicación práctica</p>
+                    <div class="grid lg:grid-cols-[1.4fr_1fr] gap-4 items-start">
+                        <div class="soft-card rounded-[28px] p-4 md:p-5">
+                            <div class="grid md:grid-cols-2 gap-4 min-h-[340px]">
+                                <div id="tree-tecnica" class="drop-zone drop-zone--game rounded-[24px] border-2 border-teal-200 bg-gradient-to-b from-teal-50 to-emerald-50 p-4 md:p-5 relative" data-target="tecnica" onclick="handleZoneClick('tecnica')">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-tools text-lg"></i></div>
+                                            <div>
+                                                <h3 class="font-extrabold text-teal-800 text-base">Técnica</h3>
+                                                <p class="text-xs text-teal-700">Aplicación práctica</p>
+                                            </div>
                                         </div>
+                                        <span class="text-xs font-bold text-teal-700 bg-white/80 px-3 py-1 rounded-full border border-teal-200"><span id="count-tecnica">0</span></span>
                                     </div>
-                                    <div class="image-placeholder rounded-2xl h-24 mb-4 flex flex-col items-center justify-center text-center px-3">
-                                        <p class="text-xs font-semibold text-teal-800">Espacio para imagen o iconografía</p>
-                                        <p class="text-[11px] text-teal-700">Medida: 900 x 500 px</p>
-                                    </div>
-                                    <div class="items-container w-full flex flex-col gap-2 mt-2"></div>
+                                    <div class="items-container drop-zone__items w-full flex flex-col gap-2 min-h-[200px]"></div>
+                                    <p class="text-[11px] text-teal-700 mt-3 text-center">Suelta aquí las afirmaciones del camino técnico</p>
                                 </div>
-                                <div id="tree-uni" class="drop-zone rounded-[24px] border-2 border-indigo-200 bg-gradient-to-b from-indigo-50 to-slate-50 p-4 md:p-5 relative" data-target="uni" onclick="handleZoneClick('uni')">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-university"></i></div>
-                                        <div>
-                                            <h3 class="font-bold text-indigo-800 text-base">Ruta Universitaria</h3>
-                                            <p class="text-xs text-indigo-700">Trayectorias largas y proyección profesional</p>
+                                <div id="tree-uni" class="drop-zone drop-zone--game rounded-[24px] border-2 border-indigo-200 bg-gradient-to-b from-indigo-50 to-slate-50 p-4 md:p-5 relative" data-target="uni" onclick="handleZoneClick('uni')">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-university text-lg"></i></div>
+                                            <div>
+                                                <h3 class="font-extrabold text-indigo-800 text-base">Universitaria</h3>
+                                                <p class="text-xs text-indigo-700">Trayectoria larga</p>
+                                            </div>
                                         </div>
+                                        <span class="text-xs font-bold text-indigo-700 bg-white/80 px-3 py-1 rounded-full border border-indigo-200"><span id="count-uni">0</span></span>
                                     </div>
-                                    <div class="image-placeholder rounded-2xl h-24 mb-4 flex flex-col items-center justify-center text-center px-3 border-indigo-200">
-                                        <p class="text-xs font-semibold text-indigo-800">Espacio para imagen o iconografía</p>
-                                        <p class="text-[11px] text-indigo-700">Medida: 900 x 500 px</p>
-                                    </div>
-                                    <div class="items-container w-full flex flex-col gap-2 mt-2"></div>
+                                    <div class="items-container drop-zone__items w-full flex flex-col gap-2 min-h-[200px]"></div>
+                                    <p class="text-[11px] text-indigo-700 mt-3 text-center">Suelta aquí las afirmaciones del camino universitario</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-12 lg:col-span-4 flex flex-col gap-4">
-                            <div class="soft-card rounded-[28px] p-4 md:p-5">
-                                <h4 class="text-xs uppercase text-slate-500 mb-3 tracking-wider font-bold">Tarjetas de decisión</h4>
-                                <div id="drag-container" class="flex flex-wrap gap-2 justify-center lg:justify-start">
+                        <div class="soft-card rounded-[28px] p-4 md:p-5 relative">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-xs uppercase text-slate-500 tracking-wider font-bold">Mazo de afirmaciones</h4>
+                                <span class="text-xs font-bold text-amber-600 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">Arrastra o toca</span>
+                            </div>
+                            <div id="drag-container" class="flex flex-col gap-2 min-h-[280px]">
                             ${mitosData.map(m => `
-                                <div id="${m.id}" class="draggable-item myth-token bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs md:text-sm py-3 px-3 rounded-2xl shadow-sm cursor-grab active:cursor-grabbing text-center" draggable="true" data-target="${m.target}" onclick="handleItemClick('${m.id}')">
-                                    ${m.text}
+                                <div id="${m.id}" class="draggable-item myth-token bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-sm py-3 px-3 rounded-2xl shadow-sm cursor-grab active:cursor-grabbing flex items-center gap-3" draggable="true" data-target="${m.target}" onclick="handleItemClick('${m.id}')">
+                                    <span class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs font-bold"><i class="fas fa-grip-vertical"></i></span>
+                                    <span class="flex-1">${m.text}</span>
                                 </div>
                             `).join('')}
-                                </div>
-                                <p class="text-xs text-slate-500 mt-3"><i class="fas fa-hand-pointer text-amber-500"></i> En móvil: toca una tarjeta y luego toca una ruta.</p>
                             </div>
-                            <div class="soft-card rounded-[28px] p-4">
-                                <h4 class="font-bold text-slate-800 mb-2">Recurso visual recomendado</h4>
-                                <div class="image-placeholder rounded-2xl h-36 flex flex-col items-center justify-center text-center p-4">
-                                    <i class="fas fa-layer-group text-3xl text-sky-600 mb-2"></i>
-                                    <p class="text-sm font-semibold text-slate-700">Infografía comparativa de rutas</p>
-                                    <p class="text-xs text-slate-500 mt-1">Medida sugerida: 1080 x 1350 px</p>
-                                    <p class="text-xs text-slate-500">Uso: apoyo lateral o modal ampliado</p>
-                                </div>
-                            </div>
+                            <p class="text-xs text-slate-500 mt-4 flex items-center gap-2"><i class="fas fa-mobile-screen text-amber-500"></i> En móvil toca una tarjeta y luego el camino.</p>
                         </div>
                     </div>
 
                     <div id="s2-feedback" class="hidden bg-teal-50 border border-teal-300 text-teal-800 p-4 rounded-2xl flex items-start gap-3 mt-2 soft-card">
-                        <svg class="w-12 h-12 flex-shrink-0"><use href="#oso-bear"></use></svg>
+                        <img src="imgs/oso.svg" alt="Oso orientador" class="w-12 h-12 flex-shrink-0 drop-shadow">
                         <p class="text-sm self-center">¡Excelente! Educar no es desanimar de la universidad, sino <strong>ampliar el menú</strong> para que cada joven decida con base en la realidad, sus intereses y su contexto.</p>
                     </div>
                 </div>
             `,
             3: () => `
-                <div class="w-full h-full flex flex-col animate-slide-up">
-                    <h2 class="text-xl md:text-2xl font-bold text-amber-600 mb-2 flex items-center gap-2">
-                        <i class="fas fa-book-open"></i> Cartilla 2: Pasos de Facilitación
-                    </h2>
-                    <p class="text-slate-600 text-sm mb-4">Explora los pasos clave para guiar a los estudiantes en la sección "Grandes preguntas en el colegio".</p>
-                    
-                    <div class="flex-1 flex flex-col md:flex-row gap-4 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg">
-                        <!-- Tabs -->
-                        <div class="w-full md:w-1/3 bg-slate-50 flex flex-row md:flex-col border-b md:border-b-0 md:border-r border-gray-200">
-                            <button onclick="switchTab(1)" id="tab-1" class="tab-btn flex-1 md:flex-none text-left p-3 md:p-4 text-sm font-bold border-l-4 border-teal-500 bg-white text-slate-800 transition-colors">
-                                <i class="fas fa-search mr-2"></i> 1. Investigar
-                            </button>
-                            <button onclick="switchTab(2)" id="tab-2" class="tab-btn flex-1 md:flex-none text-left p-3 md:p-4 text-sm font-bold border-l-4 border-transparent text-slate-500 hover:bg-white transition-colors">
-                                <i class="fas fa-balance-scale mr-2"></i> 2. Comparar
-                            </button>
-                            <button onclick="switchTab(3)" id="tab-3" class="tab-btn flex-1 md:flex-none text-left p-3 md:p-4 text-sm font-bold border-l-4 border-transparent text-slate-500 hover:bg-white transition-colors">
-                                <i class="fas fa-mountain mr-2"></i> 3. Superar
-                            </button>
+                <div class="w-full h-full flex flex-col gap-4 animate-slide-up">
+                    <div class="hero-card rounded-[28px] p-5 md:p-7 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.14),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(234,179,8,0.12),_transparent_30%)]"></div>
+                        <div class="relative flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <span class="gradient-chip text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.2em]">Cartilla 2</span>
+                                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mt-3">Pasos de Facilitación</h2>
+                                <p class="text-slate-600 text-sm md:text-base mt-2 max-w-2xl">Recorre los tres pasos clave para acompañar a tus estudiantes en la sección "Grandes preguntas en el colegio".</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/80 border border-white/70 text-teal-700 px-3 py-2 rounded-full text-xs font-semibold flex items-center gap-2"><i class="fas fa-search"></i> Investigar</span>
+                                <span class="bg-white/80 border border-white/70 text-sky-700 px-3 py-2 rounded-full text-xs font-semibold flex items-center gap-2"><i class="fas fa-balance-scale"></i> Comparar</span>
+                                <span class="bg-white/80 border border-white/70 text-amber-700 px-3 py-2 rounded-full text-xs font-semibold flex items-center gap-2"><i class="fas fa-mountain"></i> Superar</span>
+                            </div>
                         </div>
-                        
-                        <!-- Content -->
-                        <div class="w-full md:w-2/3 p-4 md:p-6 relative">
-                            <div id="tab-content-1" class="tab-content animate-slide-up">
-                                <h3 class="text-lg font-bold text-teal-700 mb-3">La Investigación (Explorar el sistema)</h3>
-                                <div class="bg-slate-50 p-4 rounded border border-gray-200 mb-4">
-                                    <p class="text-slate-600 text-sm leading-relaxed">
-                                        <strong>Objetivo:</strong> Dinamizar la búsqueda de requisitos de ingreso.
-                                    </p>
-                                </div>
-                                <p class="text-slate-600 text-sm">
-                                    El educador debe usar la actividad <em>"Investigando más profundo"</em> de la cartilla. No se trata solo de que el estudiante elija una carrera al azar, sino que entienda el ecosistema: ¿Qué instituciones existen? ¿Cuáles son los puntajes requeridos? ¿Cuáles son las fechas de admisión? <strong>La información es poder.</strong>
-                                </p>
+                    </div>
+
+                    <div class="flex-1 grid lg:grid-cols-[1.5fr_1fr] gap-4">
+                        <div class="soft-card rounded-[28px] overflow-hidden flex flex-col">
+                            <div class="flex border-b border-slate-200 bg-slate-50">
+                                <button onclick="switchTab(1)" id="tab-1" class="tab-btn flex-1 text-left p-3 md:p-4 text-sm font-bold border-b-4 border-teal-500 bg-white text-slate-800 transition-colors flex items-center gap-2 justify-center">
+                                    <span class="w-7 h-7 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs">1</span>
+                                    <span class="hidden md:inline">Investigar</span>
+                                </button>
+                                <button onclick="switchTab(2)" id="tab-2" class="tab-btn flex-1 text-left p-3 md:p-4 text-sm font-bold border-b-4 border-transparent text-slate-500 hover:bg-white transition-colors flex items-center gap-2 justify-center">
+                                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs">2</span>
+                                    <span class="hidden md:inline">Comparar</span>
+                                </button>
+                                <button onclick="switchTab(3)" id="tab-3" class="tab-btn flex-1 text-left p-3 md:p-4 text-sm font-bold border-b-4 border-transparent text-slate-500 hover:bg-white transition-colors flex items-center gap-2 justify-center">
+                                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs">3</span>
+                                    <span class="hidden md:inline">Superar</span>
+                                </button>
                             </div>
-                            
-                            <div id="tab-content-2" class="tab-content hidden animate-slide-up">
-                                <h3 class="text-lg font-bold text-teal-700 mb-3">Comparar Caminos</h3>
-                                <div class="bg-slate-50 p-4 rounded border border-gray-200 mb-4">
-                                    <p class="text-slate-600 text-sm leading-relaxed">
-                                        <strong>Objetivo:</strong> Analizar pros y contras de diferentes rutas.
-                                    </p>
+                            <div class="p-5 md:p-6 flex-1 overflow-y-auto">
+                                <div id="tab-content-1" class="tab-content animate-slide-up space-y-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-search text-lg"></i></div>
+                                        <h3 class="text-xl font-extrabold text-slate-800">Explorar el sistema</h3>
+                                    </div>
+                                    <div class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-2xl">
+                                        <p class="text-sm text-slate-700"><strong class="text-teal-800">Objetivo:</strong> Dinamizar la búsqueda de requisitos de ingreso.</p>
+                                    </div>
+                                    <p class="text-slate-700 text-sm md:text-base leading-relaxed">El educador debe usar la actividad <em>"Investigando más profundo"</em> de la cartilla. No se trata solo de que el estudiante elija una carrera al azar, sino que entienda el ecosistema: ¿Qué instituciones existen? ¿Cuáles son los puntajes requeridos? ¿Cuáles son las fechas de admisión? <strong>La información es poder.</strong></p>
+                                    <div class="grid sm:grid-cols-3 gap-3">
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-3">
+                                            <i class="fas fa-school text-teal-600 mb-2"></i>
+                                            <p class="text-xs font-semibold text-slate-700">Instituciones</p>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-3">
+                                            <i class="fas fa-clipboard-check text-teal-600 mb-2"></i>
+                                            <p class="text-xs font-semibold text-slate-700">Puntajes</p>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-3">
+                                            <i class="fas fa-calendar text-teal-600 mb-2"></i>
+                                            <p class="text-xs font-semibold text-slate-700">Fechas</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class="text-slate-600 text-sm mb-3">
-                                    Utiliza las tablas comparativas de la cartilla para que los jóvenes contrasten:
-                                </p>
-                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1 ml-2">
-                                    <li>Costos de matrícula y manutención.</li>
-                                    <li>Duración de los programas (Técnico vs. Profesional).</li>
-                                    <li>Perfiles de egreso y empleabilidad en la región.</li>
-                                </ul>
+
+                                <div id="tab-content-2" class="tab-content hidden animate-slide-up space-y-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-balance-scale text-lg"></i></div>
+                                        <h3 class="text-xl font-extrabold text-slate-800">Comparar Caminos</h3>
+                                    </div>
+                                    <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-2xl">
+                                        <p class="text-sm text-slate-700"><strong class="text-sky-800">Objetivo:</strong> Analizar pros y contras de diferentes rutas.</p>
+                                    </div>
+                                    <p class="text-slate-700 text-sm md:text-base leading-relaxed">Utiliza las tablas comparativas de la cartilla para que los jóvenes contrasten:</p>
+                                    <div class="grid sm:grid-cols-3 gap-3">
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4">
+                                            <i class="fas fa-coins text-sky-600 mb-2"></i>
+                                            <p class="text-sm font-semibold text-slate-800">Costos</p>
+                                            <p class="text-xs text-slate-500">Matrícula y manutención</p>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4">
+                                            <i class="fas fa-hourglass-half text-sky-600 mb-2"></i>
+                                            <p class="text-sm font-semibold text-slate-800">Duración</p>
+                                            <p class="text-xs text-slate-500">Técnico vs. Profesional</p>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4">
+                                            <i class="fas fa-briefcase text-sky-600 mb-2"></i>
+                                            <p class="text-sm font-semibold text-slate-800">Empleabilidad</p>
+                                            <p class="text-xs text-slate-500">Perfiles y demanda regional</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="tab-content-3" class="tab-content hidden animate-slide-up space-y-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center shadow-lg"><i class="fas fa-mountain text-lg"></i></div>
+                                        <h3 class="text-xl font-extrabold text-slate-800">Superar Obstáculos</h3>
+                                    </div>
+                                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-2xl">
+                                        <p class="text-sm text-slate-700"><strong class="text-amber-800">Objetivo:</strong> Facilitar conversaciones sobre barreras reales.</p>
+                                    </div>
+                                    <p class="text-slate-700 text-sm md:text-base leading-relaxed">Muchos jóvenes se desaniman por barreras económicas o falta de información. Como guía, debes mostrarles el camino para superar estos muros informando sobre apoyos reales.</p>
+                                    <div class="grid sm:grid-cols-2 gap-3">
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+                                            <i class="fas fa-graduation-cap text-amber-600 mt-1"></i>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Becas locales</p>
+                                                <p class="text-xs text-slate-500">Programas regionales y alcaldías</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+                                            <i class="fas fa-university text-amber-600 mt-1"></i>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">ICETEX</p>
+                                                <p class="text-xs text-slate-500">Créditos y subsidios</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+                                            <i class="fas fa-bus text-amber-600 mt-1"></i>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Subsidios de transporte</p>
+                                                <p class="text-xs text-slate-500">Apoyos para la permanencia</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-white border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+                                            <i class="fas fa-hands-helping text-amber-600 mt-1"></i>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Apoyos regionales</p>
+                                                <p class="text-xs text-slate-500">Iniciativas locales específicas</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div id="tab-content-3" class="tab-content hidden animate-slide-up">
-                                <h3 class="text-lg font-bold text-teal-700 mb-3">Superar Obstáculos</h3>
-                                <div class="bg-slate-50 p-4 rounded border border-gray-200 mb-4">
-                                    <p class="text-slate-600 text-sm leading-relaxed">
-                                        <strong>Objetivo:</strong> Facilitar conversaciones sobre barreras reales.
-                                    </p>
+                        </div>
+                        <div class="relative overflow-hidden rounded-[28px] min-h-[300px]">
+                            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('imgs/bosque.svg');"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/40 to-transparent"></div>
+                            <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                                <span class="bg-white/25 border border-white/30 text-white text-xs font-bold px-3 py-1 rounded-full w-max backdrop-blur-sm">Acompañar es abrir caminos</span>
+                                <h3 class="text-2xl font-extrabold mt-3 leading-tight drop-shadow-md">Transforma el <span class="text-amber-300">"no puedo"</span> en un <span class="text-emerald-300">"¿cómo lo logro?"</span></h3>
+                                <p class="text-white/90 text-sm mt-2 max-w-md drop-shadow-sm">Cada estudiante merece un guía que le muestre el bosque completo, no solo el camino más transitado.</p>
+                                <div class="flex flex-wrap gap-2 mt-4 justify-center">
+                                    <button onclick="openModal('decisionInformada')" class="scene3-cta bg-white/95 hover:bg-white text-slate-800 text-xs font-bold px-3 py-2 rounded-full shadow-md flex items-center gap-2">
+                                        <i class="fas fa-lightbulb text-amber-500"></i> Decisión informada
+                                    </button>
+                                    <button onclick="openModal('rutaUniversitaria')" class="scene3-cta bg-white/95 hover:bg-white text-slate-800 text-xs font-bold px-3 py-2 rounded-full shadow-md flex items-center gap-2">
+                                        <i class="fas fa-university text-indigo-500"></i> Ruta universitaria
+                                    </button>
+                                    <button onclick="openModal('rutaTecnica')" class="scene3-cta bg-white/95 hover:bg-white text-slate-800 text-xs font-bold px-3 py-2 rounded-full shadow-md flex items-center gap-2">
+                                        <i class="fas fa-tools text-teal-500"></i> Ruta técnica
+                                    </button>
                                 </div>
-                                <p class="text-slate-600 text-sm">
-                                    Muchos jóvenes se desaniman por barreras económicas o falta de información. Como guía, debes mostrarles el camino para superar estos muros informando sobre: <strong>Becas locales, programas del ICETEX, subsidios de transporte, y apoyos regionales específicos.</strong> Transforma el "no puedo" en un "¿cómo lo logro?".
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -409,41 +553,88 @@
             `,
             4: () => `
                 <div class="w-full h-full flex flex-col animate-slide-up gap-4">
-                    <h2 class="text-xl md:text-2xl font-bold text-teal-700 mb-1"><i class="fas fa-chalkboard-teacher"></i> Simulador de Diálogo</h2>
-                    
-                    <div class="flex-1 hero-card rounded-[28px] p-4 md:p-6 flex flex-col shadow-inner">
-                        <!-- Student Bubble -->
-                        <div class="flex items-end gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center text-xl shadow-lg border-2 border-indigo-300 shrink-0">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="bg-indigo-50 border border-indigo-200 text-indigo-900 p-4 rounded-2xl rounded-bl-sm relative max-w-2xl">
-                                <p class="text-sm md:text-base italic">"Profe, yo quiero estudiar Derecho porque suena importante, pero mi familia no tiene dinero y me da miedo no encontrar trabajo después de tantos años."</p>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <h3 class="text-amber-600 font-bold text-sm uppercase tracking-wide">¿Cómo guiarías esta conversación usando la Cartilla 2?</h3>
-                        </div>
-
-                        <!-- Choices -->
-                        <div id="sim-choices" class="space-y-3 flex-1">
-                            <button onclick="handleSimChoice('A')" class="w-full text-left bg-white hover:bg-rose-50 border border-slate-200 p-4 rounded-2xl transition-colors group shadow-sm">
-                                <span class="font-bold text-rose-500 mr-2">A.</span>
-                                <span class="text-sm md:text-base text-slate-700">"Dile que mejor busque una técnica administrativa que es más corta y barata para evitar problemas."</span>
-                            </button>
-                            <button onclick="handleSimChoice('B')" class="w-full text-left bg-white hover:bg-emerald-50 border border-slate-200 p-4 rounded-2xl transition-colors group shadow-sm">
-                                <span class="font-bold text-emerald-600 mr-2">B.</span>
-                                <span class="text-sm md:text-base text-slate-700">"Invítala a investigar opciones de formación tecnológica en áreas jurídicas o administrativas, comparando la demanda laboral actual y costos."</span>
-                            </button>
-                        </div>
-
-                        <!-- OSO Feedback (Hidden initially) -->
-                        <div id="sim-feedback" class="hidden mt-6 bg-white border-2 rounded-2xl p-4 flex items-start gap-4 shadow-sm">
-                            <svg class="w-16 h-16 shrink-0 drop-shadow-lg"><use href="#oso-bear"></use></svg>
+                    <div class="hero-card rounded-[28px] p-5 md:p-6 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.14),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.12),_transparent_30%)]"></div>
+                        <div class="relative flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                             <div>
-                                <h4 id="sim-fb-title" class="font-bold text-lg mb-1"></h4>
-                                <p id="sim-fb-text" class="text-sm text-slate-600"></p>
+                                <span class="gradient-chip text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.18em]">Chat simulado</span>
+                                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mt-3">Simulador de Diálogo</h2>
+                                <p class="text-slate-600 text-sm md:text-base mt-1 max-w-2xl">Una estudiante te escribe. Responde como guía para ayudarla a explorar todas las rutas.</p>
+                            </div>
+                            <div class="bg-white/85 border border-white/70 rounded-2xl px-4 py-3 text-sm shadow-sm flex items-center gap-3">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span class="text-slate-600"><strong class="text-slate-800">Valeria</strong> · en línea</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 grid lg:grid-cols-[1.4fr_1fr] gap-4 min-h-0">
+                        <div class="soft-card rounded-[28px] flex flex-col overflow-hidden">
+                            <div id="sim-chat" class="flex-1 overflow-y-auto p-4 md:p-5 space-y-3 bg-gradient-to-b from-slate-50 to-white">
+                                <div class="flex items-end gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center text-base shadow-md shrink-0"><i class="fas fa-user-graduate"></i></div>
+                                    <div class="bg-indigo-50 border border-indigo-200 text-indigo-900 p-3 md:p-4 rounded-2xl rounded-bl-sm max-w-[80%] shadow-sm">
+                                        <p class="text-sm md:text-base italic">Profe, yo quiero estudiar Derecho porque suena importante, pero mi familia no tiene dinero y me da miedo no encontrar trabajo después de tantos años.</p>
+                                        <span class="block text-[11px] text-indigo-500 mt-1">Valeria · ahora</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-end gap-3 justify-end">
+                                    <div class="bg-teal-600 text-white p-3 md:p-4 rounded-2xl rounded-br-sm max-w-[80%] shadow-md">
+                                        <p class="text-sm md:text-base">Hola Valeria, gracias por confiar en mí. Cuéntame, ¿qué te llama la atención de Derecho?</p>
+                                        <span class="block text-[11px] text-teal-100 mt-1 text-right">Tú · ahora</span>
+                                    </div>
+                                    <div class="w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center text-base shadow-md shrink-0"><i class="fas fa-chalkboard-teacher"></i></div>
+                                </div>
+                                <div id="sim-typing" class="hidden flex items-end gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center text-base shadow-md shrink-0"><i class="fas fa-user-graduate"></i></div>
+                                    <div class="bg-indigo-50 border border-indigo-200 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-1.5">
+                                        <span class="typing-dot"></span>
+                                        <span class="typing-dot"></span>
+                                        <span class="typing-dot"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-3 md:p-4 bg-white">
+                                <div id="sim-suggestions" class="flex flex-wrap gap-2 mb-2">
+                                    <button onclick="simSendResponse('A')" class="sim-chip sim-chip--bad">
+                                        <span class="sim-chip__tag">A</span>
+                                        Direccionarla solo por costo y tiempo corto
+                                    </button>
+                                    <button onclick="simSendResponse('B')" class="sim-chip sim-chip--good">
+                                        <span class="sim-chip__tag">B</span>
+                                        Invitarla a explorar rutas afines con datos reales
+                                    </button>
+                                    <button onclick="simSendResponse('C')" class="sim-chip sim-chip--custom">
+                                        <span class="sim-chip__tag"><i class="fas fa-pen"></i></span>
+                                        Escribir mi propia respuesta
+                                    </button>
+                                </div>
+                                <form id="sim-custom-form" class="hidden flex flex-col sm:flex-row gap-2 mt-2" onsubmit="event.preventDefault(); simSendCustom();">
+                                    <input id="sim-input" type="text" placeholder="Escribe tu respuesta como guía..." class="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-teal-500">
+                                    <button class="bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2">
+                                        <i class="fas fa-paper-plane"></i> Enviar
+                                    </button>
+                                </form>
+                                <div id="sim-hint" class="text-xs text-slate-500 mt-2 flex items-center gap-2">
+                                    <i class="fas fa-lightbulb text-amber-500"></i> Elige una opción o redacta tu propia respuesta.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="soft-card rounded-[28px] p-5 md:p-6 flex flex-col gap-4">
+                            <div>
+                                <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Cartilla 2</span>
+                                <h3 class="text-lg font-extrabold text-slate-800 mt-1">¿Qué busca el guía?</h3>
+                                <p class="text-sm text-slate-600 mt-2">Acompañar sin imponer, validar intereses, mostrar rutas reales y abrir caminos posibles.</p>
+                            </div>
+                            <ul class="text-sm text-slate-700 space-y-2">
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-emerald-500 mt-1"></i> Reconocer lo que la motiva.</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-emerald-500 mt-1"></i> Contrastar opciones con datos.</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-emerald-500 mt-1"></i> Resignificar el esfuerzo como inversión.</li>
+                            </ul>
+                            <div id="sim-feedback" class="hidden bg-white border-2 rounded-2xl p-4 flex items-start gap-3 shadow-sm"></div>
+                            <div class="mt-auto flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-2xl p-3">
+                                <img src="imgs/oso.svg" alt="Oso orientador" class="w-12 h-12 shrink-0 drop-shadow">
+                                <p class="text-xs text-emerald-900">Después de enviar tu respuesta, el oso orientador te dará su retroalimentación.</p>
                             </div>
                         </div>
                     </div>
@@ -452,7 +643,7 @@
             5: () => `
                 <div class="w-full h-full flex flex-col items-center justify-center animate-slide-up text-center">
                     <div class="relative mb-8">
-                        <svg class="w-40 h-40 md:w-56 md:h-56 z-10 relative drop-shadow-2xl"><use href="#oso-bear"></use></svg>
+                        <img src="imgs/oso.svg" alt="Oso orientador" class="w-40 h-40 md:w-56 md:h-56 z-10 relative drop-shadow-2xl animate-float">
                         <!-- Lantern glow effect -->
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-yellow-400/20 rounded-full blur-3xl animate-pulse-glow z-0"></div>
                         <i class="fas fa-lantern text-5xl text-yellow-400 absolute bottom-0 -right-4 z-20 drop-shadow-[0_0_10px_rgba(234,179,8,0.8)] animate-float"></i>
@@ -538,6 +729,67 @@
                             <p class="text-xs text-slate-500 mt-1">Medida recomendada: 1400 x 900 px</p>
                         </div>
                         <p class="text-xs text-slate-500 italic text-center mt-4">* Datos de contexto basados en informes del Ecosistema Educativo y Empleabilidad Juvenil.</p>
+                    </div>
+                `;
+            } else if (type === 'rutaTecnica') {
+                DOM.modalTitle.textContent = "Ruta Técnica y Tecnológica";
+                DOM.modalBody.innerHTML = `
+                    <div class="space-y-5">
+                        <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4">
+                            <h4 class="font-bold text-teal-800 mb-2 flex items-center gap-2"><i class="fas fa-tools"></i> ¿Qué la hace valiosa?</h4>
+                            <p class="text-sm text-slate-700">Ofrece formación más aplicada, tiempos más cortos de estudio y una conexión fuerte con sectores productivos que necesitan talento listo para vincularse.</p>
+                        </div>
+                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-2">
+                            <li>Puede facilitar el ingreso temprano al empleo.</li>
+                            <li>Permite construir experiencia mientras el joven sigue proyectándose.</li>
+                            <li>No es un camino menor: es una ruta distinta con ventajas concretas.</li>
+                        </ul>
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200">
+                            <p class="text-sm text-slate-700"><strong>Mensaje clave para el docente:</strong> presentar esta opción como una posibilidad digna, estratégica y realista, no como premio de consolación.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'rutaUniversitaria') {
+                DOM.modalTitle.textContent = "Ruta Universitaria";
+                DOM.modalBody.innerHTML = `
+                    <div class="space-y-5">
+                        <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4">
+                            <h4 class="font-bold text-indigo-800 mb-2 flex items-center gap-2"><i class="fas fa-university"></i> ¿Qué conversa esta ruta?</h4>
+                            <p class="text-sm text-slate-700">Es adecuada para metas profesionales de largo plazo, pero requiere analizar tiempo de estudio, costos, apoyos financieros y condiciones de permanencia.</p>
+                        </div>
+                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-2">
+                            <li>Exige revisar requisitos de ingreso y trayectorias de formación.</li>
+                            <li>Conviene compararla con otras rutas para evitar decisiones idealizadas.</li>
+                            <li>Debe dialogar con el contexto familiar, económico y territorial.</li>
+                        </ul>
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200">
+                            <p class="text-sm text-slate-700"><strong>Mensaje clave para el docente:</strong> acompañar sin romantizar, ayudando a aterrizar la aspiración en un plan posible.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'decisionInformada') {
+                DOM.modalTitle.textContent = "Decisión Informada";
+                DOM.modalBody.innerHTML = `
+                    <div class="space-y-5">
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                            <h4 class="font-bold text-amber-800 mb-2 flex items-center gap-2"><i class="fas fa-lightbulb"></i> El rol del guía</h4>
+                            <p class="text-sm text-slate-700">El objetivo no es decirle al estudiante qué elegir, sino ayudarle a comparar rutas, identificar barreras y ver oportunidades reales.</p>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3">
+                            <div class="bg-white border border-slate-200 rounded-2xl p-4">
+                                <h5 class="font-bold text-slate-800 text-sm mb-1">Intereses</h5>
+                                <p class="text-xs text-slate-600">¿Qué le gusta, qué sueña, qué le motiva?</p>
+                            </div>
+                            <div class="bg-white border border-slate-200 rounded-2xl p-4">
+                                <h5 class="font-bold text-slate-800 text-sm mb-1">Realidad</h5>
+                                <p class="text-xs text-slate-600">Costos, tiempo, empleabilidad, apoyos y territorio.</p>
+                            </div>
+                            <div class="bg-white border border-slate-200 rounded-2xl p-4">
+                                <h5 class="font-bold text-slate-800 text-sm mb-1">Plan</h5>
+                                <p class="text-xs text-slate-600">Próximos pasos concretos para avanzar sin frustración.</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-700"><strong>Mensaje clave:</strong> orientar es ampliar el panorama para que la elección sea libre, informada y viable.</p>
                     </div>
                 `;
             }
@@ -638,6 +890,8 @@
                 
                 // Add tiny animation
                 item.animate([{transform: 'scale(1.1)'}, {transform: 'scale(1)'}], {duration: 300});
+
+                bumpScore(zoneElement);
             } else {
                 // Incorrect - shake animation
                 item.animate([
@@ -654,6 +908,8 @@
 
         function checkCompletion() {
             const remainingInPool = document.getElementById('drag-container').children.length;
+            const remainingEl = document.getElementById('s2-remaining');
+            if (remainingEl) remainingEl.textContent = remainingInPool;
             if (remainingInPool === 0) {
                 state.scene2Completed = true;
                 document.getElementById('s2-feedback').classList.remove('hidden');
@@ -661,70 +917,223 @@
             }
         }
 
+        function bumpScore(zoneElement) {
+            const scoreEl = document.getElementById('s2-score');
+            if (!scoreEl) return;
+            const current = parseInt(scoreEl.textContent || '0', 10);
+            scoreEl.textContent = current + 1;
+
+            const target = zoneElement && zoneElement.dataset.target;
+            const counter = document.getElementById(target ? `count-${target}` : null);
+            if (counter) counter.textContent = parseInt(counter.textContent || '0', 10) + 1;
+
+            if (zoneElement) {
+                zoneElement.animate([
+                    { transform: 'scale(1)' },
+                    { transform: 'scale(1.04)' },
+                    { transform: 'scale(1)' }
+                ], { duration: 320, easing: 'ease-out' });
+            }
+        }
+
         window.switchTab = function(tabId) {
-            // Update buttons
-            for(let i=1; i<=3; i++) {
+            const palette = {
+                1: { border: 'border-teal-500', chipBg: 'bg-teal-100', chipText: 'text-teal-700' },
+                2: { border: 'border-sky-500', chipBg: 'bg-sky-100', chipText: 'text-sky-700' },
+                3: { border: 'border-amber-500', chipBg: 'bg-amber-100', chipText: 'text-amber-700' }
+            };
+            for (let i = 1; i <= 3; i++) {
                 const btn = document.getElementById(`tab-${i}`);
-                if(i === tabId) {
-                    btn.classList.remove('border-transparent', 'text-slate-500', 'hover:bg-white');
-                    btn.classList.add('border-teal-500', 'bg-white', 'text-slate-800');
+                const chip = btn.querySelector('span');
+                const isActive = i === tabId;
+                btn.classList.remove('border-teal-500', 'border-sky-500', 'border-amber-500', 'border-transparent', 'bg-white', 'text-slate-800', 'text-slate-500');
+                if (isActive) {
+                    btn.classList.add(palette[i].border, 'bg-white', 'text-slate-800');
                 } else {
                     btn.classList.add('border-transparent', 'text-slate-500', 'hover:bg-white');
-                    btn.classList.remove('border-teal-500', 'bg-white', 'text-slate-800');
                 }
-                
-                // Update content
+
+                if (chip) {
+                    chip.classList.remove('bg-teal-100', 'text-teal-700', 'bg-sky-100', 'text-sky-700', 'bg-amber-100', 'text-amber-700', 'bg-slate-200', 'text-slate-500');
+                    if (isActive) {
+                        chip.classList.add(palette[i].chipBg, palette[i].chipText);
+                    } else {
+                        chip.classList.add('bg-slate-200', 'text-slate-500');
+                    }
+                }
+
                 const content = document.getElementById(`tab-content-${i}`);
-                if(i === tabId) {
-                    content.classList.remove('hidden');
-                } else {
-                    content.classList.add('hidden');
+                if (content) {
+                    content.classList.toggle('hidden', !isActive);
                 }
             }
         };
 
         window.handleSimChoice = function(choice) {
-            const fbBox = document.getElementById('sim-feedback');
-            const fbTitle = document.getElementById('sim-fb-title');
-            const fbText = document.getElementById('sim-fb-text');
-            const buttons = document.getElementById('sim-choices').querySelectorAll('button');
-            
-            fbBox.classList.remove('hidden');
-            fbBox.classList.remove('border-red-300', 'border-teal-300', 'bg-red-50', 'bg-teal-50');
-            
-            // Disable buttons after choice
-            buttons.forEach(b => b.disabled = true);
-            buttons.forEach(b => b.classList.add('opacity-50', 'cursor-not-allowed'));
-
-            if (choice === 'A') {
-                fbBox.classList.add('border-red-300', 'bg-red-50');
-                fbTitle.className = 'font-bold text-lg mb-1 text-red-600';
-                fbTitle.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Acercamiento Incorrecto';
-                fbText.innerHTML = 'No estás validando el interés de la joven. Direccionarla únicamente por costo sin explorar áreas afines a sus intereses (como lo administrativo/jurídico) puede generar desmotivación. <em>Intenta de nuevo.</em>';
-                
-                // Allow retry
-                setTimeout(() => {
-                    fbBox.classList.add('hidden');
-                    buttons.forEach(b => {
-                        b.disabled = false;
-                        b.classList.remove('opacity-50', 'cursor-not-allowed');
-                    });
-                }, 4000);
-                
-            } else if (choice === 'B') {
-                fbBox.classList.add('border-teal-300', 'bg-teal-50');
-                fbTitle.className = 'font-bold text-lg mb-1 text-teal-700';
-                fbTitle.innerHTML = '<i class="fas fa-star"></i> ¡Bien hecho!';
-                fbText.innerHTML = 'Al mostrarle la opción Tecnológica dentro de sus áreas de interés, le das una ruta de tránsito inmediato al trabajo que luego puede homologar para su meta profesional (Derecho), reduciendo la frustración y el riesgo de deserción.';
-                
-                state.scene4Completed = true;
-                DOM.btnNext.disabled = false;
-                
-                // Highlight correct button
-                buttons[1].classList.remove('opacity-50');
-                buttons[1].classList.add('ring-2', 'ring-teal-500', 'bg-teal-50');
-            }
+            if (choice === 'A') simSendResponse('A');
+            else if (choice === 'B') simSendResponse('B');
         };
+
+        function appendChatMessage({ role, text }) {
+            const chat = document.getElementById('sim-chat');
+            if (!chat) return;
+            const wrap = document.createElement('div');
+            wrap.className = role === 'student' ? 'flex items-end gap-3' : 'flex items-end gap-3 justify-end';
+            const avatar = document.createElement('div');
+            avatar.className = role === 'student'
+                ? 'w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center text-base shadow-md shrink-0'
+                : 'w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center text-base shadow-md shrink-0';
+            avatar.innerHTML = role === 'student' ? '<i class="fas fa-user-graduate"></i>' : '<i class="fas fa-chalkboard-teacher"></i>';
+            const bubble = document.createElement('div');
+            bubble.className = role === 'student'
+                ? 'bg-indigo-50 border border-indigo-200 text-indigo-900 p-3 md:p-4 rounded-2xl rounded-bl-sm max-w-[80%] shadow-sm'
+                : 'bg-teal-600 text-white p-3 md:p-4 rounded-2xl rounded-br-sm max-w-[80%] shadow-md';
+            const message = document.createElement('p');
+            message.className = 'text-sm md:text-base' + (role === 'student' ? ' italic' : '');
+            message.textContent = text;
+            const meta = document.createElement('span');
+            meta.className = 'block text-[11px] mt-1 ' + (role === 'student' ? 'text-indigo-500' : 'text-teal-100 text-right');
+            meta.textContent = role === 'student' ? 'Valeria · ahora' : 'Tú · ahora';
+            bubble.appendChild(message);
+            bubble.appendChild(meta);
+            if (role === 'student') {
+                wrap.appendChild(avatar);
+                wrap.appendChild(bubble);
+            } else {
+                wrap.appendChild(bubble);
+                wrap.appendChild(avatar);
+            }
+            const typing = document.getElementById('sim-typing');
+            chat.insertBefore(wrap, typing);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function showTyping() {
+            const typing = document.getElementById('sim-typing');
+            if (!typing) return;
+            typing.classList.remove('hidden');
+            const chat = document.getElementById('sim-chat');
+            chat.scrollTop = chat.scrollHeight;
+        }
+        function hideTyping() {
+            const typing = document.getElementById('sim-typing');
+            if (typing) typing.classList.add('hidden');
+        }
+
+        function renderFeedback({ title, text, tone }) {
+            const fbBox = document.getElementById('sim-feedback');
+            fbBox.classList.remove('hidden', 'border-red-300', 'border-teal-300', 'border-amber-300', 'bg-red-50', 'bg-teal-50', 'bg-amber-50');
+            const palette = {
+                bad: { border: 'border-red-300', bg: 'bg-red-50', title: 'text-red-600', icon: 'fa-exclamation-triangle' },
+                good: { border: 'border-teal-300', bg: 'bg-teal-50', title: 'text-teal-700', icon: 'fa-star' },
+                custom: { border: 'border-amber-300', bg: 'bg-amber-50', title: 'text-amber-700', icon: 'fa-pen-fancy' }
+            }[tone];
+            fbBox.classList.add(palette.border, palette.bg);
+            fbBox.innerHTML = `
+                <img src="imgs/oso.svg" alt="Oso orientador" class="w-12 h-12 shrink-0 drop-shadow">
+                <div>
+                    <h4 class="font-bold text-lg mb-1 ${palette.title}"><i class="fas ${palette.icon}"></i> ${title}</h4>
+                    <p class="text-sm text-slate-700">${text}</p>
+                </div>
+            `;
+        }
+
+        function lockSuggestions() {
+            const suggestions = document.getElementById('sim-suggestions');
+            if (!suggestions) return;
+            suggestions.querySelectorAll('button').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+            const hint = document.getElementById('sim-hint');
+            if (hint) hint.classList.add('hidden');
+            const form = document.getElementById('sim-custom-form');
+            if (form) form.classList.add('hidden');
+        }
+
+        function simSendResponse(option) {
+            if (option === 'A') {
+                appendChatMessage({ role: 'guide', text: 'Mejor mira una técnica administrativa, es más corta y barata para que no batalles.' });
+                showTyping();
+                setTimeout(() => {
+                    hideTyping();
+                    appendChatMessage({ role: 'student', text: 'Mmm… pero a mí me llama la atención lo jurídico, ¿no hay algo parecido?' });
+                    renderFeedback({
+                        title: 'Acercamiento a mejorar',
+                        text: 'Estás cerrando opciones solo por costo. Vuelve a intentarlo validando los intereses de Valeria antes de proponer una ruta.',
+                        tone: 'bad'
+                    });
+                    unlockForRetry();
+                }, 1400);
+                lockSuggestions();
+            } else if (option === 'B') {
+                appendChatMessage({ role: 'guide', text: 'Conozco opciones de formación tecnológica en áreas jurídicas y administrativas. ¿Comparamos tiempos, costos y empleabilidad?' });
+                showTyping();
+                setTimeout(() => {
+                    hideTyping();
+                    appendChatMessage({ role: 'student', text: '¡Eso sí me interesa! ¿Por dónde empiezo?' });
+                    renderFeedback({
+                        title: '¡Bien hecho!',
+                        text: 'Conectas su interés con rutas reales y datos. Eso le permite decidir con base en la realidad y trazar un plan.',
+                        tone: 'good'
+                    });
+                    state.scene4Completed = true;
+                    DOM.btnNext.disabled = false;
+                }, 1400);
+                lockSuggestions();
+            } else if (option === 'C') {
+                const form = document.getElementById('sim-custom-form');
+                if (form) {
+                    form.classList.remove('hidden');
+                    const input = document.getElementById('sim-input');
+                    if (input) input.focus();
+                }
+            }
+        }
+
+        function simSendCustom() {
+            const input = document.getElementById('sim-input');
+            if (!input) return;
+            const value = input.value.trim();
+            if (!value) return;
+            appendChatMessage({ role: 'guide', text: value });
+            input.value = '';
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                const positive = /interés|opcion|ruta|tecnol|invest|camino|plan/i.test(value);
+                if (positive) {
+                    appendChatMessage({ role: 'student', text: 'Gracias profe, me siento más tranquila. Vamos a revisarlo.' });
+                    renderFeedback({
+                        title: 'Buen tono orientador',
+                        text: 'Tu respuesta valida a Valeria y propone explorar opciones. Sigue practicando con distintos casos.',
+                        tone: 'custom'
+                    });
+                    state.scene4Completed = true;
+                    DOM.btnNext.disabled = false;
+                } else {
+                    appendChatMessage({ role: 'student', text: 'No estoy segura de entender, ¿podrías explicarme mejor?' });
+                    renderFeedback({
+                        title: 'Ajusta la respuesta',
+                        text: 'Intenta reconocer primero su interés y luego abrir opciones con datos concretos.',
+                        tone: 'bad'
+                    });
+                    unlockForRetry();
+                }
+            }, 1400);
+            lockSuggestions();
+        }
+
+        function unlockForRetry() {
+            const suggestions = document.getElementById('sim-suggestions');
+            if (!suggestions) return;
+            suggestions.querySelectorAll('button').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            });
+            const hint = document.getElementById('sim-hint');
+            if (hint) hint.classList.remove('hidden');
+        }
 
         window.downloadChecklist = function() {
             DOM.modalTitle.textContent = "Checklist del Guía: Mitos vs. Realidades";
